@@ -6,3 +6,4 @@ for (const key in files) {
 }
 
 export { api }
+export default api
