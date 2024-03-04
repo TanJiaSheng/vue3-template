@@ -4,6 +4,10 @@
     </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+    import { useStore } from 'vuex'
+    const store = useStore()
+    console.log(store.state.system)
+</script>
 
 <style scoped></style>
