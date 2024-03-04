@@ -6,5 +6,5 @@ export default {
         Object.keys(components).forEach((key: string) => {
             app.component(key, components[key])
         })
-    },
+    }
 }

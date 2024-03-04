@@ -13,9 +13,7 @@ export default class CachedPromise {
      */
     get(id: any) {
         if (typeof id === 'undefined') {
-            return Object.keys(this.cache).map(
-                (requestId) => (this.cache as any)[requestId]
-            )
+            return Object.keys(this.cache).map((requestId) => (this.cache as any)[requestId])
         }
         return (this.cache as any)[id]
     }

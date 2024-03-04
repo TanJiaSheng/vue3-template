@@ -33,9 +33,7 @@ export default class RequestQueue {
      * @param {string} id id
      */
     delete(id: any) {
-        this.queue = [
-            ...this.queue.filter((request: any) => request.requestId !== id),
-        ] as []
+        this.queue = [...this.queue.filter((request: any) => request.requestId !== id)] as []
     }
 
     /**
@@ -70,7 +68,7 @@ export default class RequestQueue {
                 this.delete(requestId)
                 request.cancelExcutor({
                     type: 'cancel',
-                    msg: `${msg}: ${requestId}`,
+                    msg: `${msg}: ${requestId}`
                 })
             })
             return Promise.resolve(requestIds)

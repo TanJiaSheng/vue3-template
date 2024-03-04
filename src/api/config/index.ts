@@ -8,26 +8,11 @@ const json2Query = (param: any, key: string) => {
     const separator = '&'
     let paramStr = ''
 
-    if (
-        param instanceof String ||
-        typeof param === 'string' ||
-        param instanceof Number ||
-        typeof param === 'number' ||
-        param instanceof Boolean ||
-        typeof param === 'boolean'
-    )
-        paramStr +=
-            separator +
-            key +
-            mappingOperator +
-            encodeURIComponent(param as string)
+    if (param instanceof String || typeof param === 'string' || param instanceof Number || typeof param === 'number' || param instanceof Boolean || typeof param === 'boolean') paramStr += separator + key + mappingOperator + encodeURIComponent(param as string)
     else if (typeof param === 'object') {
         Object.keys(param).forEach((p) => {
             const value = param[p]
-            const k =
-                key === null || key === '' || key === undefined
-                    ? p
-                    : key + (param instanceof Array ? '[' + p + ']' : '.' + p)
+            const k = key === null || key === '' || key === undefined ? p : key + (param instanceof Array ? '[' + p + ']' : '.' + p)
             paramStr += separator + json2Query(value, k)
         })
     }
@@ -57,10 +42,7 @@ export const request =
                 // 去除后面的路径符号
                 newUrl = newUrl.replace(new RegExp(`\\${key}/`, 'g'), '')
             } else {
-                newUrl = newUrl.replace(
-                    new RegExp(`\\${key}`, 'g'),
-                    variableData[key]
-                )
+                newUrl = newUrl.replace(new RegExp(`\\${key}`, 'g'), variableData[key])
             }
             delete params[key]
         })
@@ -87,12 +69,7 @@ export const request =
             })
     }
 
-const getPromise = (
-    method: string,
-    url: string,
-    params: VariableData,
-    config: object = {},
-) => {
+const getPromise = (method: string, url: string, params: VariableData, config: object = {}) => {
     // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
         await request(method, url)(params, config)
@@ -103,17 +80,13 @@ const getPromise = (
 }
 
 // get
-export const get = (url: string, params: VariableData, opts = {}) =>
-    getPromise('get', url, params, opts)
+export const get = (url: string, params: VariableData, opts = {}) => getPromise('get', url, params, opts)
 
 // post
-export const post = (url: string, params: VariableData, opts = {}) =>
-    getPromise('post', url, params, opts)
+export const post = (url: string, params: VariableData, opts = {}) => getPromise('post', url, params, opts)
 
 // put
-export const put = (url: string, params: VariableData, opts = {}) =>
-    getPromise('put', url, params, opts)
+export const put = (url: string, params: VariableData, opts = {}) => getPromise('put', url, params, opts)
 
 // delete
-export const remove = (url: string, params: VariableData, opts = {}) =>
-    getPromise('delete', url, params, opts)
+export const remove = (url: string, params: VariableData, opts = {}) => getPromise('delete', url, params, opts)

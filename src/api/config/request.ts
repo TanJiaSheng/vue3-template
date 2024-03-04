@@ -4,7 +4,6 @@ import CachedPromise from './cachedPromise'
 import RequestQueue from './requestQueue'
 import { ElMessage } from 'element-plus'
 
-
 // axios 实例
 const axiosInstance: any = axios.create({
     baseURL: '',
@@ -29,10 +28,7 @@ const http: Http = {
     },
     cancelCache: (requestId: string) => http.cache.delete(requestId),
     cancel: (requestId: string) => {
-        Promise.all([
-            http.cancelRequest(requestId),
-            http.cancelCache(requestId)
-        ])
+        Promise.all([http.cancelRequest(requestId), http.cancelCache(requestId)])
     }
 }
 
@@ -72,12 +68,7 @@ function getRequest(method: string) {
  *
  * @return {Promise} 本次http请求的Promise
  */
-async function getPromise(
-    method: string,
-    url: string,
-    data: object,
-    userConfig: object = {}
-) {
+async function getPromise(method: string, url: string, data: object, userConfig: object = {}) {
     const config = initConfig(method, url, data, userConfig)
     let promise
     if (config.cancelPrevious) {
@@ -96,9 +87,7 @@ async function getPromise(
 
     // eslint-disable-next-line no-async-promise-executor
     promise = new Promise(async (resolve, reject) => {
-        const axiosRequest = methodsWithData.includes(method)
-            ? axiosInstance[method](url, data, config)
-            : axiosInstance[method](url, config)
+        const axiosRequest = methodsWithData.includes(method) ? axiosInstance[method](url, data, config) : axiosInstance[method](url, config)
 
         try {
             const response = await axiosRequest
@@ -107,11 +96,7 @@ async function getPromise(
         } catch (httpError: any) {
             // http status 错误
             // 避免 cancel request 时出现 error message
-            if (
-                httpError &&
-                httpError.message &&
-                httpError.message.type === 'cancel'
-            ) {
+            if (httpError && httpError.message && httpError.message.type === 'cancel') {
                 console.warn('请求被取消：', url)
                 return
             }
@@ -248,12 +233,7 @@ interface ConfigRet {
     cancelWhenRouteChange: boolean
     cancelPrevious: boolean
 }
-function initConfig(
-    method: string,
-    url: string,
-    data: object,
-    userConfig: object
-): ConfigRet {
+function initConfig(method: string, url: string, data: object, userConfig: object): ConfigRet {
     const defaultConfig = {
         ...getCancelToken(),
         // http 请求默认 id
