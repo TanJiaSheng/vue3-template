@@ -10,7 +10,8 @@ import 'element-plus/dist/index.css'
 import 'virtual:svg-icons-register'
 import App from './App.vue'
 import gloablComponent from '@/components/index'
-import { api } from './api'
+import { api } from '@/api'
+import router from '@/router'
 
 const app = createApp(App)
 app.use(ElementPlus, {
@@ -21,6 +22,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 app.use(ElementPlus)
 app.use(gloablComponent)
+app.use(router)
 api.user.login({
     username: 'admin',
     password: '123456'
